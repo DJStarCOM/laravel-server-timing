@@ -1,9 +1,9 @@
 <?php
 
-namespace BeyondCode\ServerTiming\Tests;
+namespace DJStarCOM\ServerTiming\Tests;
 
 use PHPUnit\Framework\TestCase;
-use BeyondCode\ServerTiming\ServerTiming;
+use DJStarCOM\ServerTiming\ServerTiming;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class ServerTimingTest extends TestCase

@@ -1,9 +1,9 @@
 # Laravel Server Timings
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcode/laravel-server-timing.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-server-timing)
-[![Build Status](https://img.shields.io/travis/beyondcode/laravel-server-timing/master.svg?style=flat-square)](https://travis-ci.org/beyondcode/laravel-server-timing)
-[![Quality Score](https://img.shields.io/scrutinizer/g/beyondcode/laravel-server-timing.svg?style=flat-square)](https://scrutinizer-ci.com/g/beyondcode/laravel-server-timing)
-[![Total Downloads](https://img.shields.io/packagist/dt/beyondcode/laravel-server-timing.svg?style=flat-square)](https://packagist.org/packages/beyondcode/laravel-server-timing)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/djstarcom/laravel-server-timing.svg?style=flat-square)](https://packagist.org/packages/djstarcom/laravel-server-timing)
+[![Build Status](https://img.shields.io/travis/djstarcom/laravel-server-timing/master.svg?style=flat-square)](https://travis-ci.org/djstarcom/laravel-server-timing)
+[![Quality Score](https://img.shields.io/scrutinizer/g/djstarcom/laravel-server-timing.svg?style=flat-square)](https://scrutinizer-ci.com/g/djstarcom/laravel-server-timing)
+[![Total Downloads](https://img.shields.io/packagist/dt/djstarcom/laravel-server-timing.svg?style=flat-square)](https://packagist.org/packages/djstarcom/laravel-server-timing)
 
 Add Server-Timing header information from within your Laravel apps.
 
@@ -12,12 +12,12 @@ Add Server-Timing header information from within your Laravel apps.
 You can install the package via composer:
 
 ```bash
-composer require beyondcode/laravel-server-timing
+composer require djstarcom/laravel-server-timing
 ```
 
 ## Usage
 
-To add server-timing header information, you need to add the `BeyondCode\ServerTiming\Middleware\ServerTimingMiddleware` middleware to your HTTP Kernel.
+To add server-timing header information, you need to add the `DJStarCOM\ServerTiming\Middleware\ServerTimingMiddleware` middleware to your HTTP Kernel.
 In order to get the most accurate results, put the middleware as the first one to load in the middleware stack.
 
 By default, the middleware measures only three things, to keep it as light-weight as possible:

@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCode\ServerTiming\Facades;
+namespace DJStarCOM\ServerTiming\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -8,6 +8,6 @@ class ServerTiming extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \BeyondCode\ServerTiming\ServerTiming::class;
+        return \DJStarCOM\ServerTiming\ServerTiming::class;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use BeyondCode\ServerTiming\ServerTiming;
+use DJStarCOM\ServerTiming\ServerTiming;
 
 if (!function_exists('measure_timing')) {
     function measure_timing(string $key, $callable = null)

@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCode\ServerTiming;
+namespace DJStarCOM\ServerTiming;
 
 use Illuminate\Support\ServiceProvider;
 

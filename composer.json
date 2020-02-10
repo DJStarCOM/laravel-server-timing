@@ -1,13 +1,21 @@
 {
-    "name": "beyondcode/laravel-server-timing",
+    "type": "library",
+    "name": "djstarcom/laravel-server-timing",
     "description": "Add Server-Timing header information from within your Laravel apps.",
     "keywords": [
-        "beyondcode",
-        "laravel-server-timing"
+        "laravel",
+        "Server-Timing",
+        "header"
     ],
-    "homepage": "https://github.com/beyondcode/laravel-server-timing",
+    "version": "0.0.1",
+    "homepage": "https://github.com/djstarcom/laravel-server-timing",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Stanislav Tsepeniuk",
+            "email": "s.tsepeniuk@gmail.com",
+            "homepage": "https://github.com/djstarcom"
+        },
         {
             "name": "Marcel Pociot",
             "email": "marcel@beyondco.de",
@@ -16,7 +24,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.2",
         "illuminate/support": "5.8.*|^6.0|^7.0",
         "symfony/stopwatch": "^4.0|^5.0"
     },
@@ -26,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "BeyondCode\\ServerTiming\\": "src"
+            "DJStarCOM\\ServerTiming\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -34,7 +42,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "BeyondCode\\ServerTiming\\Tests\\": "tests"
+            "DJStarCOM\\ServerTiming\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -47,10 +55,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BeyondCode\\ServerTiming\\ServerTimingServiceProvider"
+                "DJStarCOM\\ServerTiming\\ServerTimingServiceProvider"
             ],
             "aliases": {
-                "Stopwatch": "BeyondCode\\ServerTiming\\Facades\\ServerTiming"
+                "Stopwatch": "DJStarCOM\\ServerTiming\\Facades\\ServerTiming"
             }
         }
     }

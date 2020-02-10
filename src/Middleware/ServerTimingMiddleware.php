@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCode\ServerTiming\Middleware;
+namespace DJStarCOM\ServerTiming\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use BeyondCode\ServerTiming\ServerTiming;
+use DJStarCOM\ServerTiming\ServerTiming;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
