@@ -17,7 +17,7 @@ composer require djstarcom/laravel-server-timing
 
 ## Usage
 
-To add server-timing header information, you need to add the `DJStarCOM\ServerTiming\Middleware\ServerTimingMiddleware` middleware to your HTTP Kernel.
+To add server-timing header information, you need to add the `\DJStarCOM\ServerTiming\Middleware\ServerTimingMiddleware::class` middleware to your HTTP Kernel.
 In order to get the most accurate results, put the middleware as the first one to load in the middleware stack.
 
 By default, the middleware measures only three things, to keep it as light-weight as possible:
@@ -60,6 +60,13 @@ ServerTiming::setDuration('Running expensive task', function() {
 ## Adding textual information
 
 You can also use the Server-Timing middleware to only set textual information without providing a duration.
+
+## Publishing configuration file
+
+The configuration file could be published using:
+`php artisan vendor:publish --tag=server-timing-config`
+
+You can disable the middleware changing the `timing.enabled` configuration to false.
 
 ```php
 ServerTiming::addMetric('User: '.$user->id);
