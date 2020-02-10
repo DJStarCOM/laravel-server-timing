@@ -15,11 +15,20 @@ class ServerTiming
     /** @var array */
     protected $startedEvents = [];
 
+    /**
+     * ServerTiming constructor.
+     * @param Stopwatch $stopwatch
+     */
     public function __construct(Stopwatch $stopwatch)
     {
         $this->stopwatch = $stopwatch;
     }
 
+    /**
+     * Add metric
+     * @param string $metric
+     * @return $this
+     */
     public function addMetric(string $metric)
     {
         $this->finishedEvents[$metric] = null;
@@ -27,11 +36,21 @@ class ServerTiming
         return $this;
     }
 
+    /**
+     * Has started event
+     * @param string $key
+     * @return bool
+     */
     public function hasStartedEvent(string $key): bool
     {
         return array_key_exists($key, $this->startedEvents);
     }
 
+    /**
+     * Measure
+     * @param string $key
+     * @return $this
+     */
     public function measure(string $key)
     {
         if (! $this->hasStartedEvent($key)) {
@@ -41,6 +60,11 @@ class ServerTiming
         return $this->stop($key);
     }
 
+    /**
+     * Start watching
+     * @param string $key
+     * @return $this
+     */
     public function start(string $key)
     {
         $this->stopwatch->start($key);
@@ -50,6 +74,11 @@ class ServerTiming
         return $this;
     }
 
+    /**
+     * Stop watching
+     * @param string $key
+     * @return $this
+     */
     public function stop(string $key)
     {
         if ($this->stopwatch->isStarted($key)) {
@@ -63,6 +92,9 @@ class ServerTiming
         return $this;
     }
 
+    /**
+     * Stop all unfinished events
+     */
     public function stopAllUnfinishedEvents()
     {
         foreach (array_keys($this->startedEvents) as $startedEventName) {
@@ -70,6 +102,12 @@ class ServerTiming
         }
     }
 
+    /**
+     * Set event duration
+     * @param string $key
+     * @param $duration
+     * @return $this
+     */
     public function setDuration(string $key, $duration)
     {
         if (is_callable($duration)) {
@@ -85,11 +123,20 @@ class ServerTiming
         return $this;
     }
 
+    /**
+     * Get event duration
+     * @param string $key
+     * @return mixed|null
+     */
     public function getDuration(string $key)
     {
         return $this->finishedEvents[$key] ?? null;
     }
 
+    /**
+     * Get all events
+     * @return array
+     */
     public function events(): array
     {
         return $this->finishedEvents;
