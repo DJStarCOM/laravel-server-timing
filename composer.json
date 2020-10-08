@@ -7,7 +7,7 @@
         "Server-Timing",
         "header"
     ],
-    "version": "0.0.2",
+    "version": "0.0.3",
     "homepage": "https://github.com/djstarcom/laravel-server-timing",
     "license": "MIT",
     "authors": [
@@ -24,8 +24,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
-        "illuminate/support": "5.8.*|^6.0|^7.0",
+        "illuminate/support": "5.8.*|^6.0|^7.0|^8.0",
         "symfony/stopwatch": "^4.0|^5.0"
     },
     "require-dev": {
