@@ -83,20 +83,23 @@ class ServerTimingMiddleware
      */
     protected function generateHeaders(): string
     {
-        $header = '';
+        $metrics = [];
 
         foreach ($this->timing->events() as $eventName => $duration) {
             $eventNameSlug = Str::slug($eventName);
 
-            $header .= "${eventNameSlug};desc=\"${eventName}\";";
+            $metric = "{$eventNameSlug};desc=\"{$eventName}\"";
 
+            // RFC 8941 section 3.1.2: a parameter is ";" name ["=" value]. A ";"
+            // with nothing after it is not a parameter, so it is only emitted
+            // when there is a duration to attach to it.
             if (!is_null($duration)) {
-                $header .= "dur=${duration}";
+                $metric .= ";dur={$duration}";
             }
 
-            $header .= ", ";
+            $metrics[] = $metric;
         }
 
-        return $header;
+        return implode(', ', $metrics);
     }
 }
