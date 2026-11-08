@@ -11,64 +11,67 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ServerTimingMiddlewareTest extends TestCase
 {
-    /** @test */
-    public function it_add_server_timing_header()
+    public function testItAddsServerTimingHeader()
     {
-        $request = new Request;
-
-        $timing = new ServerTiming(new Stopwatch());
-
-        $middleware = new ServerTimingMiddleware($timing);
-
-        $response = $middleware->handle($request, function ($req) {
-            return new Response();
-        });
+        $response = $this->handleWith(new ServerTiming(new Stopwatch()));
 
         $this->assertArrayHasKey('server-timing', $response->headers->all());
-
     }
 
-    /** @test */
-    public function it_is_bypassed_if_configuration_false()
+    public function testItIsBypassedIfConfigurationFalse()
     {
         $this->app['config']->set('timing.enabled', false);
 
-        $request = new Request;
-
-        $timing = new ServerTiming(new Stopwatch());
-
-        $middleware = new ServerTimingMiddleware($timing);
-
-        $response = $middleware->handle($request, function ($req) {
-            return new Response();
-        });
+        $response = $this->handleWith(new ServerTiming(new Stopwatch()));
 
         $this->assertArrayNotHasKey('server-timing', $response->headers->all());
     }
 
-    /** @test */
-    public function it_renders_metric_values_into_the_header()
+    public function testItRendersMetricValuesIntoTheHeader()
     {
-        $request = new Request;
-
         $timing = new ServerTiming(new Stopwatch());
         $timing->setDuration('Cache Lookup', 12.5);
         $timing->addMetric('No Duration');
 
-        $middleware = new ServerTimingMiddleware($timing);
+        $header = $this->handleWith($timing)->headers->get('server-timing');
 
-        $response = $middleware->handle($request, function ($req) {
-            return new Response();
-        });
-
-        $header = $response->headers->get('server-timing');
-
-        // Имя метрики и её значение обязаны попасть в заголовок целиком.
-        // Шаблон "${var}" в двойных кавычках даёт тот же результат на PHP < 8.2,
-        // но помечен deprecated в 8.2 и удалён в PHP 9 — тест фиксирует вывод,
-        // а не способ его получения.
         $this->assertStringContainsString('cache-lookup;desc="Cache Lookup";dur=12.5', $header);
         $this->assertStringContainsString('no-duration;desc="No Duration";', $header);
-        $this->assertStringNotContainsString('${', $header);
+    }
+
+    public function testItSeparatesMetricsWithACommaAndNoTrailingSeparator()
+    {
+        $timing = new ServerTiming(new Stopwatch());
+        $timing->setDuration('Cache Lookup', 12.5);
+        $timing->addMetric('No Duration');
+
+        $header = $this->handleWith($timing)->headers->get('server-timing');
+
+        // RFC 8941 list: elements are separated by ", " and no element may be empty,
+        // so the header must not end with a separator either.
+        $this->assertStringContainsString('dur=12.5, no-duration;desc="No Duration";', $header);
+        $this->assertStringEndsNotWith(',', rtrim($header));
+
+        $metrics = explode(', ', $header);
+
+        $this->assertGreaterThan(1, count($metrics));
+
+        foreach ($metrics as $index => $metric) {
+            $this->assertNotSame('', $metric, "Metric #{$index} is empty in header: {$header}");
+            $this->assertSame(
+                1,
+                preg_match('/^[a-z0-9-]+;desc="[^"]+";(dur=[0-9.eE+-]+)?$/', $metric),
+                "Metric #{$index} is not a valid Server-Timing element: {$metric}"
+            );
+        }
+    }
+
+    private function handleWith(ServerTiming $timing): Response
+    {
+        $middleware = new ServerTimingMiddleware($timing);
+
+        return $middleware->handle(new Request, function ($request) {
+            return new Response();
+        });
     }
 }

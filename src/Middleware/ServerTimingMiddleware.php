@@ -83,20 +83,20 @@ class ServerTimingMiddleware
      */
     protected function generateHeaders(): string
     {
-        $header = '';
+        $metrics = [];
 
         foreach ($this->timing->events() as $eventName => $duration) {
             $eventNameSlug = Str::slug($eventName);
 
-            $header .= "{$eventNameSlug};desc=\"{$eventName}\";";
+            $metric = "{$eventNameSlug};desc=\"{$eventName}\";";
 
             if (!is_null($duration)) {
-                $header .= "dur={$duration}";
+                $metric .= "dur={$duration}";
             }
 
-            $header .= ", ";
+            $metrics[] = $metric;
         }
 
-        return $header;
+        return implode(', ', $metrics);
     }
 }

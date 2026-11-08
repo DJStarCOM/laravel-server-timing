@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Kept deliberately minimal so that the same file validates against the schema of
+  PHPUnit 9.5, 10.5 and 11. Everything that only exists in one of those schemas
+  (backupStaticAttributes, verbose, convert*ToExceptions, filter/whitelist, logging,
+  source, cacheDirectory) is passed on the command line instead - see the composer
+  scripts - otherwise the runner reports a configuration warning and exits 1.
+-->
 <phpunit bootstrap="vendor/autoload.php"
          backupGlobals="false"
-         backupStaticAttributes="false"
          colors="true"
-         verbose="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
@@ -14,16 +16,4 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="tap" target="build/report.tap"/>
-        <log type="junit" target="build/report.junit.xml"/>
-        <log type="coverage-html" target="build/coverage" charset="UTF-8" yui="true" highlight="true"/>
-        <log type="coverage-text" target="build/coverage.txt"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
 </phpunit>

@@ -1,0 +1,9 @@
+<?php
+
+// Fixture for SourceCompatibilityTest: this file is never autoloaded or executed,
+// it is only passed to `php -l` so the lint check can prove it detects something.
+// The construct below is deprecated as of PHP 8.2 and removed in PHP 9.
+
+$var = 'value';
+
+echo "${var}";
