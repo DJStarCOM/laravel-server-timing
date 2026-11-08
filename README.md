@@ -72,6 +72,20 @@ You can disable the middleware changing the `timing.enabled` configuration to fa
 ServerTiming::addMetric('User: '.$user->id);
 ```
 
+### Supported versions
+
+PHP 8.0+ and Laravel 8 through 13. The suite is run on PHP 8.3 against Laravel 8
+(PHPUnit 9.6), 9 (9.6), 10 (10.5), 11 (11.5), 12 (11.5) and 13 (12.5).
+
+Older constraints (PHP 7.2–7.4, Laravel 5.8/6/7) were removed from `require`: no
+version of `orchestra/testbench` that supports them can be installed alongside the
+current dev dependencies, so that support could not be verified at all. Install an
+earlier tag of this package on those platforms.
+
+Laravel 8–11 reach `composer` only with the advisory check relaxed, because those
+framework branches are past security support and carry published advisories that
+will never be patched. New work should target Laravel 12.
+
 ### Testing
 
 ``` bash
