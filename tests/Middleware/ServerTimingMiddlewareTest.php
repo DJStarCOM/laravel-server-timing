@@ -99,6 +99,11 @@ class ServerTimingMiddlewareTest extends TestCase
         $this->assertNotNull($app, "App has no duration in: {$header}");
         $this->assertNotNull($total, "Total has no duration in: {$header}");
 
+        // Bootstrap is the time from the request start to this middleware. Asserting
+        // only that it is present leaves setDuration('Bootstrap', 0) - a constant
+        // instead of a measurement - indistinguishable from a working package.
+        $this->assertGreaterThan(0.0, $bootstrap, "Bootstrap was not measured in: {$header}");
+
         // The pipeline slept for 5 ms, so a real measurement cannot be below that.
         $this->assertGreaterThanOrEqual(4.0, $app, "App was not measured in: {$header}");
 
