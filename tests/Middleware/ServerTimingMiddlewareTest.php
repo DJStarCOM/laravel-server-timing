@@ -45,4 +45,30 @@ class ServerTimingMiddlewareTest extends TestCase
 
         $this->assertArrayNotHasKey('server-timing', $response->headers->all());
     }
+
+    /** @test */
+    public function it_renders_metric_values_into_the_header()
+    {
+        $request = new Request;
+
+        $timing = new ServerTiming(new Stopwatch());
+        $timing->setDuration('Cache Lookup', 12.5);
+        $timing->addMetric('No Duration');
+
+        $middleware = new ServerTimingMiddleware($timing);
+
+        $response = $middleware->handle($request, function ($req) {
+            return new Response();
+        });
+
+        $header = $response->headers->get('server-timing');
+
+        // Имя метрики и её значение обязаны попасть в заголовок целиком.
+        // Шаблон "${var}" в двойных кавычках даёт тот же результат на PHP < 8.2,
+        // но помечен deprecated в 8.2 и удалён в PHP 9 — тест фиксирует вывод,
+        // а не способ его получения.
+        $this->assertStringContainsString('cache-lookup;desc="Cache Lookup";dur=12.5', $header);
+        $this->assertStringContainsString('no-duration;desc="No Duration";', $header);
+        $this->assertStringNotContainsString('${', $header);
+    }
 }
